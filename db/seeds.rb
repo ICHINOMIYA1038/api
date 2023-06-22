@@ -30,9 +30,10 @@ User.delete_all
 
 User.create!([
   {
-    name: "John",
-    email: "aaa@gmail.com",
-    password_hash: "aaa"
+    name: "admin",
+    email: "admin@admin.com",
+    password_hash: "admin",
+    admin: true
   },
   {
     name: "Tart",

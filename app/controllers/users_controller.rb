@@ -25,6 +25,10 @@ class UsersController < ApplicationController
         puts "error"
       end
     end
+
+    def delete
+      User.find_by(user_id: prams[:id]).destroy
+    end
   
     private
   
