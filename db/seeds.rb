@@ -6,28 +6,9 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 Post.delete_all
-Post.create!(
-  [
-    {
-      content: 'Next.js + Ruby on Rails + Docker の環境構築'
-    },
-    {
-      content: 'React Hooks でカスタムフックを作る'
-    },
-    {
-      content: 'GraphQL と Apollo Client 入門'
-    },
-    {
-      content: '【TypeScript4.3】Template Literal Types'
-    },
-    {
-      content: 'Tailwind CSS でダークモード実装'
-    },
-  ]
-)
-
 User.delete_all
-
+ActiveRecord::Base.connection.execute("ALTER TABLE users AUTO_INCREMENT = 1;")
+ActiveRecord::Base.connection.execute("ALTER TABLE posts AUTO_INCREMENT = 1;")
 User.create!([
   {
     name: "admin",
@@ -59,3 +40,30 @@ require 'faker'
     deletedAt: nil
   )
 end
+
+Post.create!(
+  [
+    {
+      content: 'Next.js + Ruby on Rails + Docker の環境構築',
+      user_id: 1
+    },
+    {
+      content: 'React Hooks でカスタムフックを作る',
+      user_id: 1
+    },
+    {
+      content: 'GraphQL と Apollo Client 入門',
+      user_id: 2
+    },
+    {
+      content: '【TypeScript4.3】Template Literal Types',
+      user_id: 3
+    },
+    {
+      content: 'Tailwind CSS でダークモード実装',
+      user_id: 4
+    },
+  ]
+)
+
+

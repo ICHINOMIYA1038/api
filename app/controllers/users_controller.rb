@@ -40,6 +40,7 @@ class UsersController < ApplicationController
     end
 
     def destroy
+      Post.find_by(user_id: params[:id]).destroy
       User.find_by(user_id: params[:id]).destroy
     end
   
