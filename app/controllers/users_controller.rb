@@ -1,14 +1,15 @@
 class UsersController < ApplicationController
+  before_action :authenticate_api_v1_user!
+
     def index
         @users = User.all
-        render json: @users
+        render json: @users ,methods: [:image_url]
     end
-    
+
     def show
       puts :id
       @user = User.find_by(user_id: params[:id])
-      puts @user
-      render json: @user
+      render json: @user ,methods: [:image_url]
     end
 
     def new
@@ -21,7 +22,9 @@ class UsersController < ApplicationController
 
     def update
       @user = User.find(params[:id])
+      @user.avatar.purge
       if @user.update(user_params)
+        @user.avatar.attach(user_params[:avatar]) if params[:avatar].present?
         # 更新に成功した場合を扱う
       else
         render 'edit', status: :unprocessable_entity
@@ -47,6 +50,7 @@ class UsersController < ApplicationController
     private
   
     def user_params
-      params.require(:user).permit(:name, :email)
+      params.require(:user).permit(:name, :email,:avatar,:password,:password_confirmation)
     end
 end
+

@@ -57,6 +57,10 @@ Rails.application.configure do
   config.active_record.verbose_query_logs = true
 
 
+    # これを追加 https://qiita.com/youichiro/items/2987cd9b4ab29691eb77
+    Rails.application.routes.default_url_options[:host] = 'localhost'
+    Rails.application.routes.default_url_options[:port] = 3000
+
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
 
