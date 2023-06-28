@@ -13,15 +13,21 @@ User.create!([
   {
     name: "admin",
     email: "admin@admin.com",
+    password: 'password',
+    password_confirmation: 'password',
     admin: true
   },
   {
     name: "Tart",
     email: "tae@gmail.com",
+    password: 'password',
+    password_confirmation: 'password',
   },
   {
     name: "John",
     email: "aaa@gmail.com",
+    password: 'password',
+    password_confirmation: 'password',
   }
 ])
 
@@ -31,10 +37,8 @@ require 'faker'
   User.create(
     name: Faker::Name.name,
     email: Faker::Internet.email,
-    password_hash: Faker::Internet.password,
-    createdAt: Faker::Time.between(from: 1.year.ago, to: Time.zone.now),
-    updatedAt: Faker::Time.between(from: 1.year.ago, to: Time.zone.now),
-    deletedAt: nil
+    password: 'password',
+    password_confirmation: 'password',
   )
 end
 
