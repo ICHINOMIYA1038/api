@@ -45,26 +45,49 @@ end
 Post.create!(
   [
     {
+      title: "タイトル1",
       content: 'Next.js + Ruby on Rails + Docker の環境構築',
       user_id: 1
     },
     {
+      title: "タイトル2",
       content: 'React Hooks でカスタムフックを作る',
       user_id: 1
     },
     {
+      title: "タイトル3",
       content: 'GraphQL と Apollo Client 入門',
       user_id: 2
     },
     {
+      title: "タイトル4",
       content: '【TypeScript4.3】Template Literal Types',
       user_id: 3
     },
     {
+      title: "タイトル5",
       content: 'Tailwind CSS でダークモード実装',
       user_id: 4
     },
   ]
 )
 
+10.times do
+  post = Post.new(
+    content: Faker::Lorem.sentence,
+    image_id: Faker::Alphanumeric.alphanumeric(number: 10),
+    createdAt: Faker::Time.between(from: 1.year.ago, to: Time.zone.now),
+    updatedAt: Faker::Time.between(from: 1.year.ago, to: Time.zone.now),
+    deletedAt: Faker::Time.between(from: 1.year.ago, to: Time.zone.now),
+    user_id: Faker::Number.unique.between(from: 1, to: 10),
+    title: Faker::Lorem.sentence(word_count: 2),
+    synopsis: Faker::Lorem.sentence(word_count: 10),
+    catchphrase: Faker::Lorem.sentence(word_count: 1),
+    number_of_men: Faker::Number.between(from: 1, to: 10),
+    number_of_women: Faker::Number.between(from: 1, to: 10),
+    total_number_of_people: Faker::Number.between(from: 1, to: 20),
+    playtime: Faker::Number.between(from: 60, to: 180)
+  )
+  post.save
+end
 

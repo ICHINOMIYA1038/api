@@ -6,19 +6,23 @@ class PostsController < ApplicationController
   def user_posts
     user = User.find(params[:user_id])
     @posts = user.posts
-    render json: @posts ,methods: [:file_url]
+    render json: @posts ,methods: [:file_url, :image_url]
   end
+
 
   # GET /posts
   def index
     @posts = Post.all
-
-    render json: @posts ,methods: [:file_url]
+    @posts.each do |post|
+      @user = User.find_by(user_id:post.user_id)
+      puts @posts
+    end
+    render json: [@posts] ,methods: [:file_url, :image_url]
   end
 
   # GET /posts/1
   def show
-    render json: @post ,methods: [:file_url]
+    render json: @post ,methods: [:file_url, :image_url]
   end
 
   def new
@@ -60,6 +64,6 @@ class PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.require(:post).permit(:content,:user_id,:mainfile)
+      params.require(:post).permit(:content,:user_id,:mainfile,:postImage)
     end
 end
