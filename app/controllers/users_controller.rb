@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :authenticate_api_v1_user!
+  
 
     def index
         @users = User.all
@@ -7,7 +7,6 @@ class UsersController < ApplicationController
     end
 
     def show
-      puts :id
       @user = User.find_by(user_id: params[:id])
       render json: @user ,methods: [:image_url]
     end
@@ -17,6 +16,7 @@ class UsersController < ApplicationController
     end
 
     def edit
+      before_action :authenticate_api_v1_user!
       @user = User.find(params[:id])
     end
 
