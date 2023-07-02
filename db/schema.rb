@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_30_065115) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_01_074019) do
   create_table "active_storage_attachments", charset: "utf8mb4", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -50,7 +50,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_30_065115) do
     t.integer "user_id"
     t.string "title", limit: 30, default: "1", null: false
     t.string "synopsis", limit: 100
-    t.string "catchphrase", limit: 30
+    t.string "catchphrase", limit: 80
     t.integer "number_of_men"
     t.integer "number_of_women"
     t.integer "total_number_of_people"

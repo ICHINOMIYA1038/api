@@ -42,6 +42,7 @@ require 'faker'
   )
 end
 
+
 Post.create!(
   [
     {
@@ -71,6 +72,7 @@ Post.create!(
     },
   ]
 )
+
 
 10.times do
   post = Post.new(

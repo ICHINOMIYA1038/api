@@ -15,7 +15,11 @@ module App
       'X-Frame-Options' => 'ALLOWALL'
     }
 
-
+    config.autoload_paths += [
+      "#{config.root}/app/helpers", # 例: app/helpersディレクトリを読み込む
+      "#{config.root}/lib",         # 例: libディレクトリを読み込む
+      # 追加のディレクトリを必要に応じて指定する
+    ]
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

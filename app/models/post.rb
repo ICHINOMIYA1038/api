@@ -1,7 +1,17 @@
 class Post < ApplicationRecord
     include Rails.application.routes.url_helpers
+    validates :catchphrase, presence: true, length: { maximum: 80 }
+    validates :title, presence: true, length: { maximum: 30 }
     has_one_attached :mainfile
     has_one_attached :postImage
+    after_create :set_default_Image
+
+    def set_default_Image
+        unless postImage.attached?
+            postImage.attach(io: File.open(Rails.root.join('public', 'uploads', 'NoImage.jpg' )), filename: 'NoImage.jpg', content_type: 'image/jpg')
+        end
+    end
+
     def file_url
         # 紐づいている画像のURLを取得する
         mainfile.attached? ? url_for(mainfile) : nil
@@ -10,6 +20,10 @@ class Post < ApplicationRecord
     def image_url
         # 紐づいている画像のURLを取得する
         postImage.attached? ? url_for(postImage) : nil
+    end
+
+    def user_image_url
+        user.image_url if user.present?
     end
 
 end

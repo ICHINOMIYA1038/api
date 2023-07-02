@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+    
     include Rails.application.routes.url_helpers
     has_one_attached :avatar
     has_many :posts, foreign_key: "user_id"

@@ -12,12 +12,8 @@ class PostsController < ApplicationController
 
   # GET /posts
   def index
-    @posts = Post.all
-    @posts.each do |post|
-      @user = User.find_by(user_id:post.user_id)
-      puts @posts
-    end
-    render json: [@posts] ,methods: [:file_url, :image_url]
+    @posts = Post.joins(:user).select('posts.*, users.name')
+    render json: @posts ,methods: [:file_url, :image_url,:user_image_url]
   end
 
   # GET /posts/1
@@ -64,6 +60,20 @@ class PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.require(:post).permit(:content,:user_id,:mainfile,:postImage)
+      params.require(:post).permit(
+        :title,
+        :catchphrase,
+        :number_of_men,
+        :number_of_women,
+        :total_number_of_people,
+        :playtime,
+        :user_id,
+        :mainfile,
+        :postImage
+        
+
+
+        
+        )
     end
 end
