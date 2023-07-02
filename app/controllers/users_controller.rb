@@ -1,20 +1,20 @@
 class UsersController < ApplicationController
     include AuthHelper
     def index
-        @users = User.all
+        
+        
+        @users = User.with_attached_avatar
        
         puts "ログメッセージ"
         render json: @users ,methods: [:image_url]
     end
 
     def show
+      @post = Post.find_by(user_id:params[:id])
+      puts @post
       @user = User.find_by(user_id: params[:id])
-      puts "log"
-      if logged_in?(@user)
-        render json: @user ,methods: [:image_url]
-      else 
-        render json: { error: "ログインしていません" }, status: :unauthorized
-      end
+      render json: @user ,methods: [:image_url]
+      
     end
 
     def new
@@ -50,8 +50,11 @@ class UsersController < ApplicationController
   
 
     def destroy
-      Post.find_by(user_id: params[:id]).destroy
-      User.find_by(user_id: params[:id]).destroy
+      post = Post.find_by(user_id: params[:id])
+      user = User.find_by(user_id: params[:id])
+    
+      post.destroy if post
+      user.destroy if user
     end
   
     private

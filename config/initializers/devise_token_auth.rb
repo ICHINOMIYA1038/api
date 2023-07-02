@@ -48,7 +48,7 @@ DeviseTokenAuth.setup do |config|
      :'client' => 'client',
      :'expiry' => 'expiry',
      :'uid' => 'uid',
-     :'token-type' => 'token-type'
+     :'token-type' => 'token-type',
      :'image_url' => 'image_url'
    }
 
