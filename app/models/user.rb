@@ -4,6 +4,7 @@ class User < ApplicationRecord
     has_one_attached :avatar
     has_many :posts, foreign_key: "user_id"
     after_create :set_default_avatar
+    has_many :favorites, dependent: :destroy     # ユーザー/お気に入り → 1:多
 
     def set_default_avatar
         unless avatar.attached?
