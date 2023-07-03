@@ -10,11 +10,14 @@ class UsersController < ApplicationController
     end
 
     def show
-      @post = Post.find_by(user_id:params[:id])
-      puts @post
       @user = User.find_by(user_id: params[:id])
-      render json: @user ,methods: [:image_url]
-      
+      if @user.admin==true
+        render json: @user ,methods: [:image_url]
+      elsif logged_in?(@user)
+        render json: @user ,methods: [:image_url]
+      else 
+        render json: { error: "ログインしていません" }, status: :unauthorized
+      end
     end
 
     def new
