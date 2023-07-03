@@ -6,7 +6,7 @@ class PostsController < ApplicationController
   def user_posts
     user = User.find(params[:user_id])
     @posts = user.posts
-    render json: @posts ,methods: [:file_url, :image_url]
+    render json: @posts ,methods: [:file_url, :image_url,:user_image_url]
   end
 
 

@@ -9,6 +9,7 @@ class UsersController < ApplicationController
         render json: @users ,methods: [:image_url]
     end
 
+=begin
     def show
       @user = User.find_by(user_id: params[:id])
       if @user.admin==true
@@ -18,6 +19,13 @@ class UsersController < ApplicationController
       else 
         render json: { error: "ログインしていません" }, status: :unauthorized
       end
+    end
+=end
+
+    def show
+      @user = User.find_by(user_id: params[:id])  
+      render json: @user ,methods: [:image_url]
+
     end
 
     def new

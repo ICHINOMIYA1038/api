@@ -43,36 +43,6 @@ require 'faker'
 end
 
 
-Post.create!(
-  [
-    {
-      title: "タイトル1",
-      content: 'Next.js + Ruby on Rails + Docker の環境構築',
-      user_id: 1
-    },
-    {
-      title: "タイトル2",
-      content: 'React Hooks でカスタムフックを作る',
-      user_id: 1
-    },
-    {
-      title: "タイトル3",
-      content: 'GraphQL と Apollo Client 入門',
-      user_id: 2
-    },
-    {
-      title: "タイトル4",
-      content: '【TypeScript4.3】Template Literal Types',
-      user_id: 3
-    },
-    {
-      title: "タイトル5",
-      content: 'Tailwind CSS でダークモード実装',
-      user_id: 4
-    },
-  ]
-)
-
 
 10.times do
   post = Post.new(
