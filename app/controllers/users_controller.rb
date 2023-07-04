@@ -28,8 +28,14 @@ class UsersController < ApplicationController
     def favorites
       favorites = Favorite.where(user_id: current_api_v1_user.user_id).pluck(:post_id)  # ログイン中のユーザーのお気に入りのpost_idカラムを取得
       @favorite_list = Post.find(favorites)     # postsテーブルから、お気に入り登録済みのレコードを取得
-      render json: @favorite_list 
+      render json: @favorite_list ,methods: [:file_url, :image_url,:user_image_url]
     end
+
+    def isFavorites
+
+
+    end
+    
 
     def new
       @user = User.new

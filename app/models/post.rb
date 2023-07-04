@@ -5,7 +5,7 @@ class Post < ApplicationRecord
     has_one_attached :mainfile
     has_one_attached :postImage
     after_create :set_default_Image
-    belongs_to :user
+    belongs_to :user, foreign_key: "user_id"
 
     def set_default_Image
         unless postImage.attached?

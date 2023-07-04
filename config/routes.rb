@@ -19,6 +19,9 @@ Rails.application.routes.draw do
   resources :posts, expect: [:index] do
     resource :favorites, only: [:create, :destroy]
   end
+
+  get '/post/:id/favo', to: 'posts#favo'
+
   
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

@@ -10,6 +10,20 @@ class PostsController < ApplicationController
   end
 
 
+  def favo
+    post = Post.find_by(post_id: params[:id])
+    user = User.find_by(user_id: current_api_v1_user.user_id)
+    favorite = Favorite.find_by(user_id: current_api_v1_user.user_id, post_id: post.post_id)
+    
+    if favorite.nil?
+      render json: { result: "NG" }
+    else
+      render json: { result: "OK" }
+    end
+  
+  end
+
+
   # GET /posts
   def index
     @posts = Post.joins(:user).select('posts.*, users.name')

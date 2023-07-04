@@ -10,7 +10,7 @@ class FavoritesController < ApplicationController
     end
   end
 =end
-
+ 
   # お気に入り登録
   def create
       @favorite = Favorite.create(user_id: current_api_v1_user.user_id, post_id: @post.id)

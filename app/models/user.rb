@@ -17,6 +17,12 @@ class User < ApplicationRecord
         avatar.attached? ? url_for(avatar) : nil
     end
 
+    def favorite_post?(post)
+        posts.exists?(post.post_id)
+    end
+
+
+
     devise :database_authenticatable, :registerable,
        :recoverable, :rememberable, :validatable
     include DeviseTokenAuth::Concerns::User
@@ -24,9 +30,4 @@ class User < ApplicationRecord
 
 end
 
-
-
-class Post < ApplicationRecord
-    belongs_to :user, foreign_key: "user_id"
-end
 
