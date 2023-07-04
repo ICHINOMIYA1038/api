@@ -2,10 +2,7 @@ class UsersController < ApplicationController
     #before_action :authenticate_api_v1_user!
     include AuthHelper
     def index
-        
-        
         @users = User.with_attached_avatar
-       
         puts "ログメッセージ"
         render json: @users ,methods: [:image_url]
     end
@@ -25,10 +22,7 @@ class UsersController < ApplicationController
 
     def show
       @user = User.find_by(user_id: params[:id])  
-      favorites = Favorite.where(user_id: current_api_v1_user.user_id).pluck(:post_id)  # ログイン中のユーザーのお気に入りのpost_idカラムを取得
-      @favorite_list = Post.find(favorites)     # postsテーブルから、お気に入り登録済みのレコードを取得
       render json: @user ,methods: [:image_url]
-     
     end
 
     def favorites
