@@ -22,6 +22,8 @@ Rails.application.routes.draw do
 
   get '/post/:id/favo', to: 'posts#favo'
 
+  get '/search', to: 'search#index'
+
   
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

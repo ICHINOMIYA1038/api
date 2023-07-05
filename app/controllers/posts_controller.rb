@@ -41,7 +41,8 @@ class PostsController < ApplicationController
 
   # POST /posts
   def create
-    @post = Post.new(post_params)
+    user = User.find_by(user_id: current_api_v1_user.user_id)  
+    @post =user.posts.new(post_params)
 
     if @post.save
       @post.mainfile.attach(user_params[:mainfile]) if params[:mainfile].present?
@@ -84,10 +85,6 @@ class PostsController < ApplicationController
         :user_id,
         :mainfile,
         :postImage
-        
-
-
-        
         )
     end
 end

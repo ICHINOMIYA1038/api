@@ -5,6 +5,7 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+Favorite.delete_all
 Post.delete_all
 User.delete_all
 ActiveRecord::Base.connection.execute("ALTER TABLE users AUTO_INCREMENT = 1;")
@@ -44,21 +45,21 @@ end
 
 
 
-10.times do
+100.times do
   post = Post.new(
     content: Faker::Lorem.sentence,
     image_id: Faker::Alphanumeric.alphanumeric(number: 10),
     createdAt: Faker::Time.between(from: 1.year.ago, to: Time.zone.now),
     updatedAt: Faker::Time.between(from: 1.year.ago, to: Time.zone.now),
     deletedAt: Faker::Time.between(from: 1.year.ago, to: Time.zone.now),
-    user_id: Faker::Number.unique.between(from: 1, to: 10),
+    user_id: Faker::Number.between(from: 1, to: 10),
     title: Faker::Lorem.sentence(word_count: 2),
     synopsis: Faker::Lorem.sentence(word_count: 10),
     catchphrase: Faker::Lorem.sentence(word_count: 1),
     number_of_men: Faker::Number.between(from: 1, to: 10),
     number_of_women: Faker::Number.between(from: 1, to: 10),
     total_number_of_people: Faker::Number.between(from: 1, to: 20),
-    playtime: Faker::Number.between(from: 60, to: 180)
+    playtime: Faker::Number.between(from: 0, to: 4)
   )
   post.save
 end
