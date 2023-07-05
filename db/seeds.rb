@@ -54,7 +54,7 @@ end
     deletedAt: Faker::Time.between(from: 1.year.ago, to: Time.zone.now),
     user_id: Faker::Number.between(from: 1, to: 10),
     title: Faker::Lorem.sentence(word_count: 2),
-    synopsis: Faker::Lorem.sentence(word_count: 10),
+    synopsis: Faker::Lorem.sentence(word_count: 5),
     catchphrase: Faker::Lorem.sentence(word_count: 1),
     number_of_men: Faker::Number.between(from: 1, to: 10),
     number_of_women: Faker::Number.between(from: 1, to: 10),
