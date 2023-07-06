@@ -2,16 +2,16 @@
 class SearchController < ApplicationController
     def index
       keyword = params[:keyword]
-      start_date = params[:start_date] 
-      end_date = params[:end_date] 
-      min_male_count = params[:min_male_count]
-      max_male_count = params[:max_male_count] 
-      min_female_count = params[:min_female_count]
-      max_female_count = params[:max_female_count] 
-      min_total_count = params[:min_total_count]
-      max_total_count = params[:max_total_count]
-      min_playtime = params[:min_playtime]
-      max_playtime = params[:max_playtime]
+      start_date = params[:startDate] 
+      end_date = params[:endDate] 
+      min_male_count = params[:minMaleCount]
+      max_male_count = params[:maxMaleCount] 
+      min_female_count = params[:minFemaleCount]
+      max_female_count = params[:maxFemaleCount] 
+      min_total_count = params[:minTotalCount]
+      max_total_count = params[:maxTotalCount]
+      min_playtime = params[:minPlaytime]
+      max_playtime = params[:maxPlaytime]
       
       puts min_female_count
 

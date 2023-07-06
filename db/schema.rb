@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_04_113635) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_06_025501) do
   create_table "active_storage_attachments", charset: "utf8mb4", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -65,6 +65,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_04_113635) do
     t.integer "total_number_of_people"
     t.integer "playtime"
     t.index ["user_id"], name: "fk_rails_5b5ddfd518"
+  end
+
+  create_table "posts_tags", id: false, charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "post_id", null: false
+    t.bigint "tag_id", null: false
+    t.index ["post_id", "tag_id"], name: "index_posts_tags_on_post_id_and_tag_id"
+    t.index ["tag_id", "post_id"], name: "index_posts_tags_on_tag_id_and_post_id"
+  end
+
+  create_table "tags", charset: "utf8mb4", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", primary_key: "user_id", id: :integer, charset: "utf8mb4", force: :cascade do |t|

@@ -7,6 +7,7 @@ class Post < ApplicationRecord
     after_create :set_default_Image
     belongs_to :user, foreign_key: "user_id"
     has_many :favorites, dependent: :destroy 
+    has_and_belongs_to_many :tags
 
     def set_default_Image
         unless postImage.attached?
