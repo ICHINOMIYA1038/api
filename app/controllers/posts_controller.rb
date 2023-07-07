@@ -45,7 +45,6 @@ class PostsController < ApplicationController
     user = User.find_by(user_id: current_api_v1_user.user_id)  
     @post =user.posts.new(post_params)
 
-
     if params[:tags]
       tag_names = params[:tags].split(',') # タグをカンマ区切りの文字列から配列に変換
       
