@@ -26,8 +26,9 @@ class PostsController < ApplicationController
 
   # GET /posts
   def index
+    posts = Post.includes(:tags)
     @posts = Post.joins(:user).select('posts.*, users.name')
-    render json: @posts ,methods: [:file_url, :image_url,:user_image_url]
+    render json: @posts , include: :tags, methods: [:file_url, :image_url,:user_image_url]
   end
 
   # GET /posts/1
@@ -43,6 +44,11 @@ class PostsController < ApplicationController
   def create
     user = User.find_by(user_id: current_api_v1_user.user_id)  
     @post =user.posts.new(post_params)
+
+
+    if params[:tags]
+      puts "ログ: #{params[:tag]}"
+    end
 
     if @post.save
       @post.mainfile.attach(user_params[:mainfile]) if params[:mainfile].present?
@@ -84,7 +90,7 @@ class PostsController < ApplicationController
         :playtime,
         :user_id,
         :mainfile,
-        :postImage
+        :postImage,
         )
     end
 end

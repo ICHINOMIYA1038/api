@@ -61,6 +61,17 @@ end
     total_number_of_people: Faker::Number.between(from: 1, to: 20),
     playtime: Faker::Number.between(from: 0, to: 4)
   )
+
+  # タグを0〜3つの範囲で追加する
+  rand(4).times do
+    tag_name = Faker::Lorem.word
+    tag = Tag.find_by(name: tag_name)
+    unless tag
+      tag = Tag.new(name: tag_name)
+      tag.save
+    end
+    post.tags << tag
+  end
+
   post.save
 end
-
