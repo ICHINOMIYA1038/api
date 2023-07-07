@@ -47,7 +47,16 @@ class PostsController < ApplicationController
 
 
     if params[:tags]
-      puts "ログ: #{params[:tag]}"
+      tag_names = params[:tags].split(',') # タグをカンマ区切りの文字列から配列に変換
+      
+      tag_names.each do |tag_name|
+        tag = Tag.find_by(name: tag_name)
+        unless tag
+          tag = Tag.new(name: tag_name)
+          tag.save
+        end
+        @post.tags << tag
+      end
     end
 
     if @post.save
