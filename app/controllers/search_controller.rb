@@ -1,5 +1,7 @@
 # app/controllers/search_controller.rb
 class SearchController < ApplicationController
+  include Pagination
+
     def index
       keyword = params[:keyword]
       start_date = params[:startDate] 
@@ -65,9 +67,16 @@ class SearchController < ApplicationController
 
       @data = @data.includes(:tags).as_json(include: :tags, methods: [:file_url, :image_url, :user_image_url])
 
-      # 必要な処理を記述して、条件に合ったデータを取得します
+      paged = params[:paged]
+      #指定がない場合はデフォルトを10ページずつ（kaminari標準のlimit_valueは25）
+      per = params[:per].present? ? params[:per] : 10
+      @posts_paginated = @data.page(paged).per(per)
+      @pagination = pagination(@posts_paginated)
   
-      render json: { data: @data} # 取得したデータをJSON形式で返す例
+      render json: {
+        posts: @posts_paginated,
+        pagination: @pagination
+      }
     end
   end
 

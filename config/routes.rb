@@ -21,8 +21,6 @@ Rails.application.routes.draw do
     resource :favorites, only: [:create, :destroy]
   end
 
-  get '/sample', to: 'posts#sample',param: :slug
-
   get '/post/:id/favo', to: 'posts#favo'
 
   get '/search', to: 'search#index'
