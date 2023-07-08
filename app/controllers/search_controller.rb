@@ -16,7 +16,7 @@ class SearchController < ApplicationController
       tagcondition = params[:tagcondition] || "all"
 
 
-
+      @data = Post.joins(:user).all
       if tags
         tag_names = params[:tags].split(',') # タグをカンマ区切りの文字列から配列に変換
         tag_names.each do |tag_name|
@@ -24,11 +24,11 @@ class SearchController < ApplicationController
           tag_ids = Tag.where(name: tag_names).pluck(:id) # タグ名に対応するタグのIDを取得
           if tagcondition == 'all'
             @result = Post.left_joins(:posts_tags)
-             .where(posts_tags: { tag_id: [1, 2] })
+             .where(posts_tags: { tag_id: [tag_ids] })
              .group("posts.post_id")
-             .having("COUNT(posts.post_id) = 2")
+             .having("COUNT(posts.post_id) = ?", tag_ids.length)
              .select("posts.post_id")
-            @data = Post.where(post_id: @result)
+            @data = Post.joins(:user).joins(:tags).where(post_id: @result)
           elsif tagcondition == 'any'
             @data = @data.joins(:tags).where(tags: { id: tag_ids }).distinct
           elsif tagcondition == 'none'
@@ -45,8 +45,6 @@ class SearchController < ApplicationController
         "title LIKE :keyword OR catchphrase LIKE :keyword OR users.name LIKE :keyword",
         keyword: "%#{keyword}%"
       )
-      .where("createdAt >= ?", start_date.presence || Post.minimum(:createdAt))
-      .where("createdAt <= ?", end_date.presence|| Post.maximum(:createdAt))
       .where(number_of_men: (min_male_count.presence || "0")..(max_male_count.presence ||  "100"))
       .where(number_of_women: (min_female_count.presence || "0")..(max_female_count.presence ||  "100"))
       .where(total_number_of_people: (min_total_count.presence || "0")..(max_total_count.presence || "100"))
@@ -72,3 +70,8 @@ class SearchController < ApplicationController
       render json: { data: @data} # 取得したデータをJSON形式で返す例
     end
   end
+
+=begin
+  .where("createdAt >= ?", start_date.presence || Post.minimum(:createdAt))
+  .where("createdAt <= ?", end_date.presence|| Post.maximum(:createdAt))
+=end

@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
   before_action :set_post, only: %i[ show update destroy ]
-
+  
+  include Pagination
 
   # GET /api/v1/users/:user_id/posts
   def user_posts
@@ -23,12 +24,29 @@ class PostsController < ApplicationController
   
   end
 
+  def sample
+    @posts = Post.order(created_at: :desc)
+    #ページネーション指定ページ
+    paged = params[:paged]
+    #指定がない場合はデフォルトを10ページずつ（kaminari標準のlimit_valueは25）
+    per = params[:per].present? ? params[:per] : 10
+    #ページネーションが適用された投稿
+    @posts_paginated = @posts.page(paged).per(per)
+    #ページネーション情報（concernに記載）
+    @pagination = pagination(@posts_paginated)
+
+    render json: @posts_paginated
+    
+  end
+
 
   # GET /posts
   def index
     posts = Post.includes(:tags)
     @posts = Post.joins(:user).select('posts.*, users.name')
-    render json: @posts , include: :tags, methods: [:file_url, :image_url,:user_image_url]
+    #@posts = Post.per(3)
+    #@pagination = pagination(@posts) 
+    render json: @posts  , include: :tags, methods: [:file_url, :image_url,:user_image_url]
   end
 
   # GET /posts/1

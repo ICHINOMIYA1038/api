@@ -9,6 +9,9 @@ class Post < ApplicationRecord
     has_many :favorites, dependent: :destroy 
     has_and_belongs_to_many :tags
 
+    paginates_per 10  # 1ページあたりの表示件数を指定します
+
+
     def set_default_Image
         unless postImage.attached?
             postImage.attach(io: File.open(Rails.root.join('public', 'uploads', 'NoImage.jpg' )), filename: 'NoImage.jpg', content_type: 'image/jpg')

@@ -12,6 +12,16 @@ class TagsController < ApplicationController
       tags = Tag.all
       render json: { tags: tags }, status: :ok
     end
+
+    def prepare
+
+        render json: { tags: tags }, status: :ok
+    end 
+
+    def favorite
+        
+        render json: { tags: tags }, status: :ok
+    end
   
     private
   
