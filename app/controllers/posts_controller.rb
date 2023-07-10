@@ -10,18 +10,19 @@ class PostsController < ApplicationController
     render json: @posts ,methods: [:file_url, :image_url,:user_image_url]
   end
 
-
   def favo
-    post = Post.find_by(post_id: params[:id])
-    user = User.find_by(user_id: current_api_v1_user.user_id)
-    favorite = Favorite.find_by(user_id: current_api_v1_user.user_id, post_id: post.post_id)
-    
-    if favorite.nil?
-      render json: { result: "NG" }
-    else
-      render json: { result: "OK" }
-    end
+    if current_api_v1_user
+      post = Post.find_by(post_id: params[:id])
+      favorite = Favorite.find_by(user_id: current_api_v1_user.user_id, post_id: post.post_id)
   
+      if favorite.nil?
+        render json: { result: "NG" }
+      else
+        render json: { result: "OK" } 
+      end
+    else
+      render json: { result: "NG" } #未ログイン
+    end
   end
 
   def sample
@@ -74,27 +75,31 @@ class PostsController < ApplicationController
 
   # POST /posts
   def create
-    user = User.find_by(user_id: current_api_v1_user.user_id)  
-    @post =user.posts.new(post_params)
+    if current_api_v1_user
+      user = User.find_by(user_id: current_api_v1_user.user_id)  
+      @post =user.posts.new(post_params)
 
-    if params[:tags]
-      tag_names = params[:tags].split(',') # タグをカンマ区切りの文字列から配列に変換
-      
-      tag_names.each do |tag_name|
-        tag = Tag.find_by(name: tag_name)
-        unless tag
-          tag = Tag.new(name: tag_name)
-          tag.save
+      if params[:tags]
+        tag_names = params[:tags].split(',') # タグをカンマ区切りの文字列から配列に変換
+        
+        tag_names.each do |tag_name|
+          tag = Tag.find_by(name: tag_name)
+          unless tag
+            tag = Tag.new(name: tag_name)
+            tag.save
+          end
+          @post.tags << tag
         end
-        @post.tags << tag
       end
-    end
-
-    if @post.save
-      @post.mainfile.attach(user_params[:mainfile]) if params[:mainfile].present?
-      render json: @post, status: :created, location: @post
+  
+      if @post.save
+        @post.mainfile.attach(user_params[:mainfile]) if params[:mainfile].present?
+        render json: @post, status: :created, location: @post
+      else
+        render json: @post.errors, status: :unprocessable_entity
+      end
     else
-      render json: @post.errors, status: :unprocessable_entity
+      render json: { error: "ログインしていません。" }, status: :unauthorized
     end
   end
 

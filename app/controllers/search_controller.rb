@@ -64,17 +64,18 @@ class SearchController < ApplicationController
       if params[:sort_by].nil? || params[:sort_by] == '5'
         @data = @data.order(created_at: :desc)
       end
-
-      @data = @data.includes(:tags).as_json(include: :tags, methods: [:file_url, :image_url, :user_image_url])
-
+    
       paged = params[:paged]
+
       #指定がない場合はデフォルトを10ページずつ（kaminari標準のlimit_valueは25）
       per = params[:per].present? ? params[:per] : 10
       @posts_paginated = @data.page(paged).per(per)
       @pagination = pagination(@posts_paginated)
+
+      @result = @posts_paginated.includes(:tags).as_json(include: :tags, methods: [:file_url, :image_url, :user_image_url])
   
       render json: {
-        posts: @posts_paginated,
+        posts: @result,
         pagination: @pagination
       }
     end

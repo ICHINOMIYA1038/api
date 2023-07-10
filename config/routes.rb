@@ -23,7 +23,7 @@ Rails.application.routes.draw do
 
   get '/post/:id/favo', to: 'posts#favo'
 
-  get '/search', to: 'search#index'
+  get '/search', to: 'search#index',param: :slug
 
   #人気順
   get '/tags/favorite', to: 'tags#favorite'
