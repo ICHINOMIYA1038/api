@@ -23,6 +23,9 @@ gem 'kaminari'
 
 gem 'dotenv-rails'
 
+gem 'devise-i18n'
+gem 'devise-i18n-views'
+
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"

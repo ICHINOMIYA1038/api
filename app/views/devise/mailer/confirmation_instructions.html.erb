@@ -1,0 +1,8 @@
+<p><%= t(:welcome).capitalize + ' ' + @email %>!</p>
+
+<p>すくりぷれいにユーザー登録いただきましてありがとうございます。</p>
+<p>本登録のために下記のURLよりアクセスください。</p>
+
+<p><%= link_to t('本登録のURLはこちら'), confirmation_url(@resource, {confirmation_token: @token, config: message['client-config'].to_s, redirect_url: message['redirect-url']}).html_safe %></p>
+
+<p>このメールの有効期限は5分です。</p>

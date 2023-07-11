@@ -16,7 +16,8 @@ class SearchController < ApplicationController
       max_playtime = params[:maxPlaytime]
       tags = params[:tags]
       tagcondition = params[:tagcondition] || "all"
-
+      
+      puts ENV['EMAIL_ADDRESS']
 
       @data = Post.joins(:user).all
       if tags
