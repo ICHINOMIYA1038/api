@@ -76,6 +76,17 @@ class UsersController < ApplicationController
       post.destroy if post
       user.destroy if user
     end
+
+    def resend_confirmation_email
+      user = User.find_by(email: params[:email])
+  
+      if user && !user.confirmed?
+        user.send_confirmation_instructions
+        render json: { message: "Confirmation email has been resent." }
+      else
+        render json: { error: "User not found or already confirmed." }
+      end
+    end
   
     private
   

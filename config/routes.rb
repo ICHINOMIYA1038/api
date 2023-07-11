@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :tags, only:[:index]
 
   get '/users/:user_id/posts', to: 'posts#user_posts'
+  
 
   namespace :api do
     namespace :v1 do
