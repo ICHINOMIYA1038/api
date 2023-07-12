@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :posts, param: :slug
+  resources :posts, param:  :id
   resources :users, only: [:index,:show,:new,:edit,:update, :create, :destroy]
   resources :tags, only:[:index]
 
