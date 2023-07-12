@@ -8,6 +8,7 @@ class Post < ApplicationRecord
     belongs_to :user, foreign_key: "user_id"
     has_many :favorites, dependent: :destroy 
     has_and_belongs_to_many :tags
+    has_many :comments
 
     paginates_per 10  # 1ページあたりの表示件数を指定します
 

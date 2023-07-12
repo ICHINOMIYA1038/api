@@ -22,6 +22,7 @@ Rails.application.routes.draw do
 # 記事詳細表示のルーティングにネスト
   resources :posts do
     resource :favorites, only: [:create, :destroy]
+    resources :comments, only: [:index]
   end
 
   get '/post/:id/favo', to: 'posts#favo'
@@ -32,6 +33,10 @@ Rails.application.routes.draw do
   get '/tags/favorite', to: 'tags#favorite'
   #事前準備
   get '/tags/prepare', to: 'tags#prepare'
+
+  Rails.application.routes.draw do
+  resources :comments, only: [:create, :destroy]
+end
 
  
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
