@@ -21,8 +21,13 @@ Rails.application.routes.draw do
   end
 # 記事詳細表示のルーティングにネスト
   resources :posts do
-    resource :favorites, only: [:create, :destroy]
-    resources :comments, only: [:index]
+    resource  :favorites, only: [:create, :destroy]
+    resources :comments, only: [:index] do
+      collection do
+        get :parent
+        get 'parent/:comment_id', action: :show_child, as: :show_child
+      end
+    end
   end
 
   get '/post/:id/favo', to: 'posts#favo'
@@ -34,11 +39,8 @@ Rails.application.routes.draw do
   #事前準備
   get '/tags/prepare', to: 'tags#prepare'
 
-  Rails.application.routes.draw do
-  resources :comments, only: [:create, :destroy]
-end
+  resources :comments, only: [:create, :destroy] 
 
- 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")

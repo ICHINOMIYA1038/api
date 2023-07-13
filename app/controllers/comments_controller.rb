@@ -18,8 +18,7 @@ class CommentsController < ApplicationController
       end
     
       def destroy
-        @comment = Comment.find(params[:id])
-      
+        @comment = Comment.find(params[:id])        
         if @comment.update(deleted: true)
           # コメントの削除に成功した場合の処理
           render json: { success: "コメントが削除されました。" }, status: :ok
@@ -35,6 +34,35 @@ class CommentsController < ApplicationController
     
         render json: @comments
       end
+
+      def parent
+
+        @post = Post.find(params[:post_id])
+        @comments = @post.comments.where(parent_comment_id: nil)
+        @allcomments = @post.comments.joins(:user).all
+
+        all_comments = @comments.map do |comment|
+          user = comment.user
+          {
+            comment_id: comment.id,
+            body: comment.body,
+            user_id: comment.user_id,
+            name: user.name,
+            user_image_url: user.image_url,
+            child_comments: @allcomments.select { |child| child.parent_comment_id == comment.id }
+          }
+        end
+        render json: all_comments ,methods: [:user_image_url] , include: :user
+      end
+
+      def show_child
+        @post = Post.find(params[:post_id])
+        @comments = @post.comments.where(parent_comment_id: nil)
+        @childcomments = @post.comments.where(parent_comment_id: params[:comment_id])
+        
+        render json: @childcomments
+      end
+
 
       private
       def comment_params
