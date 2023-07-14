@@ -48,6 +48,7 @@ class CommentsController < ApplicationController
             body: comment.body,
             user_id: comment.user_id,
             name: user.name,
+            post_id:comment.post_id,
             user_image_url: user.image_url,
             child_comments: @allcomments.select { |child| child.parent_comment_id == comment.id }
           }
