@@ -1,0 +1,42 @@
+<!-- app/views/contact_mailer/send_contact_email.html.erb -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <style>
+      /* メールのスタイルを定義するCSS */
+      body {
+        font-family: Arial, sans-serif;
+        color: #333;
+      }
+
+      h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+      }
+
+      p {
+        font-size: 16px;
+        line-height: 1.5;
+        margin-bottom: 10px;
+      }
+
+      .quote {
+        margin-left: 20px;
+        border-left: 2px solid #ccc;
+        padding-left: 10px;
+        color: #777;
+      }
+    </style>
+  </head>
+  <body>
+    <p><strong><%= @business_name %>様</strong></p>
+    <h1><%= @business_name %>お問い合わせ受付のお知らせ</h1>
+
+    <p><strong>お問い合わせ内容:</strong></p>
+    <p class="quote">&ldquo;<%= @contact.message %>&rdquo;</p>
+
+    <p>お問い合わせいただき、ありがとうございます。回答までしばらくお待ちください。</p>
+  </body>
+</html>

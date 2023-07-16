@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   resources :tags, only:[:index]
 
   get '/users/:user_id/posts', to: 'posts#user_posts'
-  
+  post '/setting' ,to: 'users#setting'
 
   namespace :api do
     namespace :v1 do
@@ -40,6 +40,8 @@ Rails.application.routes.draw do
   get '/tags/prepare', to: 'tags#prepare'
 
   resources :comments, only: [:create, :destroy] 
+  resources :contacts, only: [:create]
+
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

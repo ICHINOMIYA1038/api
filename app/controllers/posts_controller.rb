@@ -66,7 +66,16 @@ class PostsController < ApplicationController
 
   # GET /posts/1
   def show
-    render json: @post ,methods: [:file_url, :image_url]
+
+    access_params = {
+      access_date: Date.current,
+      post_id: @post.id,
+      ip_address: request.remote_ip
+    }
+
+    @access = Access.find_or_initialize_by(access_params)
+    @access.save unless @access.persisted?
+    render json: @post , methods: [:file_url, :image_url, :user_image_url]
   end
 
   def new

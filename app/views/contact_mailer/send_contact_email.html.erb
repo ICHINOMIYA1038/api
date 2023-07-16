@@ -1,0 +1,15 @@
+<!-- app/views/contact_mailer/send_contact_email.html.erb -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+    <h1>お問い合わせがありました</h1>
+    <p>お名前: <%= @contact.name %></p>
+    <p>メールアドレス: <%= @contact.email %></p>
+    <p>本文:</p>
+    <p><%= @contact.message %></p>
+  </body>
+</html>

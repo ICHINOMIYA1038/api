@@ -35,6 +35,18 @@ class UsersController < ApplicationController
 
 
     end
+
+    def setting
+      if current_api_v1_user
+        if current_api_v1_user.update(user_profile_params)
+          render json: { message: "成功" }
+        else
+          render json: { message: "不明なエラー" }
+        end
+      else
+        render json: { message: "ログインしてください" }
+      end
+    end
     
 
     def new
@@ -92,6 +104,10 @@ class UsersController < ApplicationController
   
     def user_params
       params.require(:user).permit(:name, :email,:avatar,:password,:password_confirmation)
+    end
+
+    def user_profile_params
+      params.require(:user).permit(:name, :location,:group,:website,:bio)
     end
 end
 
