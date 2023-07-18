@@ -73,7 +73,6 @@ Rails.application.configure do
   Rails.application.configure do
     # 下記を追加
     config.action_mailer.default_options = { from: ENV['EMAIL_ADDRESS'] }
-    # hostにはデフォルトでlocalhost3000になっているので、Railsのポート番号である3001に変更する。
     config.action_mailer.default_url_options = { host: 'localhost:3000' }
     config.action_mailer.delivery_method = :smtp
     config.action_mailer.smtp_settings = {
