@@ -89,7 +89,7 @@ class SearchController < ApplicationController
       @posts_paginated = @data.page(paged).per(per)
       @pagination = pagination(@posts_paginated)
 
-      @result = @posts_paginated.includes(:tags).as_json(include: :tags, methods: [:file_url, :image_url, :user_image_url,:favo_num])
+      @result = @posts_paginated.includes(:tags).as_json(include: :tags, methods: [:file_url, :image_url, :user_image_url,:favo_num,:access_num])
   
       render json: {
         posts: @result,
