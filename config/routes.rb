@@ -31,6 +31,7 @@ Rails.application.routes.draw do
   end
 
   get '/post/:id/favo', to: 'posts#favo'
+  get '/posts/:id/favo_num', to: 'posts#favo_num'
 
   get '/search', to: 'search#index',param: :slug
 

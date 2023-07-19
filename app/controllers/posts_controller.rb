@@ -7,7 +7,7 @@ class PostsController < ApplicationController
   def user_posts
     user = User.find(params[:user_id])
     @posts = user.posts
-    render json: @posts ,methods: [:file_url, :image_url,:user_image_url]
+    render json: @posts ,methods: [:file_url, :image_url,:user_image_url,:favo_num]
   end
 
   def favo
@@ -59,7 +59,7 @@ class PostsController < ApplicationController
     render json: {
       posts: @posts_paginated,
       include: :tags,
-      methods: [:file_url, :image_url, :user_image_url],
+      methods: [:file_url, :image_url, :user_image_url,:favo_num,:access_num],
       pagination: @pagination
     }
   end
@@ -75,7 +75,7 @@ class PostsController < ApplicationController
 
     @access = Access.find_or_initialize_by(access_params)
     @access.save unless @access.persisted?
-    render json: @post , methods: [:file_url, :image_url, :user_image_url]
+    render json: @post , methods: [:file_url, :image_url, :user_image_url,:favo_num,:access_num]
   end
 
   def new
@@ -125,6 +125,12 @@ class PostsController < ApplicationController
   # DELETE /posts/1
   def destroy
     @post.destroy
+  end
+
+  #/posts/[id]/favo_num
+  def favo_num
+    @post = Post.find(params[:id])
+    render json: @post , methods: [:favo_num]
   end
 
   private

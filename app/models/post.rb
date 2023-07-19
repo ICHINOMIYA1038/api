@@ -34,4 +34,12 @@ class Post < ApplicationRecord
         user.image_url if user.present?
     end
 
+    def favo_num
+        favorites.count
+    end
+
+    def access_num
+        accesses.count
+    end
+
 end

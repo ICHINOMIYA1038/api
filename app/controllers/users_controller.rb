@@ -7,19 +7,6 @@ class UsersController < ApplicationController
         render json: @users ,methods: [:image_url]
     end
 
-=begin
-    def show
-      @user = User.find_by(user_id: params[:id])
-      if @user.admin==true
-        render json: @user ,methods: [:image_url]
-      elsif logged_in?(@user)
-        render json: @user ,methods: [:image_url]
-      else 
-        render json: { error: "ログインしていません" }, status: :unauthorized
-      end
-    end
-=end
-
     def show
       @user = User.find_by(user_id: params[:id])  
       render json: @user ,methods: [:image_url]
@@ -29,11 +16,6 @@ class UsersController < ApplicationController
       favorites = Favorite.where(user_id: current_api_v1_user.user_id).pluck(:post_id)  # ログイン中のユーザーのお気に入りのpost_idカラムを取得
       @favorite_list = Post.find(favorites)     # postsテーブルから、お気に入り登録済みのレコードを取得
       render json: @favorite_list ,methods: [:file_url, :image_url,:user_image_url]
-    end
-
-    def isFavorites
-
-
     end
 
     def setting

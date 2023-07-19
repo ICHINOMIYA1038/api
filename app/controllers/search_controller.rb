@@ -53,19 +53,35 @@ class SearchController < ApplicationController
       .where(total_number_of_people: (min_total_count.presence || "0")..(max_total_count.presence || "100"))
       .where(playtime: (min_playtime.presence || "0")..(max_playtime.presence || "100"))
       .all
+      
 
-      if params[:sort_by] == '3'
-        @data = @data.order(total_number_of_people: :asc)
-      end
 
-      if params[:sort_by] == '4'
-        @data = @data.order(playtime: :asc)
-      end
+      ##整列
+=begin
+        <MenuItem value={0}>お気に入り順</MenuItem>
+        <MenuItem value={1}>人数順(男)</MenuItem>
+        <MenuItem value={2}>人数順(女)</MenuItem>
+        <MenuItem value={3}>総人数</MenuItem>
+        <MenuItem value={4}>上演時間</MenuItem>
+        <MenuItem value={5}>作成日</MenuItem>
+=end
 
-      if params[:sort_by].nil? || params[:sort_by] == '5'
-        @data = @data.order(created_at: :desc)
-      end
-    
+  #sort_directionの値を判定
+  sort_direction = params[:sortDirection].to_i.zero? ? :asc : :desc
+
+  case params[:sort_by]
+  when '1'
+    @data = @data.order(number_of_men: sort_direction)
+  when '2'
+    @data = @data.order(number_of_women: sort_direction)
+  when '3'
+    @data = @data.order(total_number_of_people: sort_direction)
+  when '4'
+    @data = @data.order(playtime: sort_direction)
+  else
+    @data = @data.order(createdAt: sort_direction)
+  end
+
       paged = params[:paged]
 
       #指定がない場合はデフォルトを10ページずつ（kaminari標準のlimit_valueは25）
@@ -73,7 +89,7 @@ class SearchController < ApplicationController
       @posts_paginated = @data.page(paged).per(per)
       @pagination = pagination(@posts_paginated)
 
-      @result = @posts_paginated.includes(:tags).as_json(include: :tags, methods: [:file_url, :image_url, :user_image_url])
+      @result = @posts_paginated.includes(:tags).as_json(include: :tags, methods: [:file_url, :image_url, :user_image_url,:favo_num])
   
       render json: {
         posts: @result,
