@@ -31,7 +31,7 @@ class SearchController < ApplicationController
              .group("posts.post_id")
              .having("COUNT(posts.post_id) = ?", tag_ids.length)
              .select("posts.post_id")
-            @data = Post.joins(:user).joins(:tags).where(post_id: @result)
+            @data = Post.joins(:user).where(post_id: @result)
           elsif tagcondition == 'any'
             @data = @data.joins(:tags).where(tags: { id: tag_ids }).distinct
           elsif tagcondition == 'none'
@@ -89,7 +89,7 @@ class SearchController < ApplicationController
       @posts_paginated = @data.page(paged).per(per)
       @pagination = pagination(@posts_paginated)
 
-      @result = @posts_paginated.includes(:tags).as_json(include: :tags, methods: [:file_url, :image_url, :user_image_url,:favo_num,:access_num])
+      @result = @posts_paginated.as_json(include: :tags, methods: [:file_url, :image_url, :user_image_url,:favo_num,:access_num])
   
       render json: {
         posts: @result,
