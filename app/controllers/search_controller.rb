@@ -1,4 +1,3 @@
-# app/controllers/search_controller.rb
 class SearchController < ApplicationController
   include Pagination
 
@@ -17,8 +16,6 @@ class SearchController < ApplicationController
       tags = params[:tags]
       tagcondition = params[:tagcondition] || "all"
       
-      puts ENV['EMAIL_ADDRESS']
-
       @data = Post.joins(:user).all
       if tags
         tag_names = params[:tags].split(',') # タグをカンマ区切りの文字列から配列に変換
@@ -39,9 +36,7 @@ class SearchController < ApplicationController
           end
         end
       elsif
-        posts = Post.includes(:tags)
-        @data = Post.joins(:user).joins(:tags)
-
+        @data = Post.joins(:user).all
       end
       
       @data=@data.where(
@@ -53,18 +48,6 @@ class SearchController < ApplicationController
       .where(total_number_of_people: (min_total_count.presence || "0")..(max_total_count.presence || "100"))
       .where(playtime: (min_playtime.presence || "0")..(max_playtime.presence || "100"))
       .all
-      
-
-
-      ##整列
-=begin
-        <MenuItem value={0}>お気に入り順</MenuItem>
-        <MenuItem value={1}>人数順(男)</MenuItem>
-        <MenuItem value={2}>人数順(女)</MenuItem>
-        <MenuItem value={3}>総人数</MenuItem>
-        <MenuItem value={4}>上演時間</MenuItem>
-        <MenuItem value={5}>作成日</MenuItem>
-=end
 
   #sort_directionの値を判定
   sort_direction = params[:sortDirection].to_i.zero? ? :asc : :desc
@@ -82,23 +65,26 @@ class SearchController < ApplicationController
     @data = @data.order(createdAt: sort_direction)
   end
 
-      paged = params[:paged]
+  paged = params[:paged]
 
-      #指定がない場合はデフォルトを10ページずつ（kaminari標準のlimit_valueは25）
-      per = params[:per].present? ? params[:per] : 10
-      @posts_paginated = @data.page(paged).per(per)
-      @pagination = pagination(@posts_paginated)
+  #指定がない場合はデフォルトを10ページずつ（kaminari標準のlimit_valueは25）
+  per = params[:per].present? ? params[:per] : 10
+  @posts_paginated = @data.page(paged).per(per)
+  @pagination = pagination(@posts_paginated)
 
-      @result = @posts_paginated.as_json(include: :tags, methods: [:file_url, :image_url, :user_image_url,:favo_num,:access_num])
-  
-      render json: {
-        posts: @result,
-        pagination: @pagination
+  @result = @posts_paginated.as_json(
+    include: {
+      tags: {},
+      user: {
+        only: :name
       }
-    end
-  end
+    },
+    methods: [:file_url, :image_url, :user_image_url, :favo_num, :access_num]
+  )
 
-=begin
-  .where("createdAt >= ?", start_date.presence || Post.minimum(:createdAt))
-  .where("createdAt <= ?", end_date.presence|| Post.maximum(:createdAt))
-=end
+  render json: {
+    posts: @result,
+    pagination: @pagination
+  }
+  end
+end
