@@ -74,7 +74,7 @@ Rails.application.configure do
     # 下記を追加
     config.action_mailer.default_options = { from: ENV['EMAIL_ADDRESS'] }
     config.action_mailer.default_url_options = { host: 'localhost:3000' }
-    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.delivery_method = :smtpBB
     config.action_mailer.smtp_settings = {
       address: 'smtp.gmail.com',
       port: 587,

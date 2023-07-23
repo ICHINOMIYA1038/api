@@ -7,7 +7,25 @@ class PostsController < ApplicationController
   def user_posts
     user = User.find(params[:user_id])
     @posts = user.posts
-    render json: @posts ,methods: [:file_url, :image_url,:user_image_url,:favo_num]
+    paged = params[:paged]
+    per = params[:per].present? ? params[:per] : 10
+    
+    @posts_paginated = @posts.page(paged).per(per)
+    @pagination = pagination(@posts_paginated)
+    @result = @posts_paginated.as_json(
+    include: {
+      tags: {},
+      user: {
+        only: :name
+      }
+},
+methods: [:file_url, :image_url, :user_image_url, :favo_num, :access_num]
+)
+
+render json: {
+  posts: @result,
+  pagination: @pagination
+}
   end
 
   def favo
@@ -46,22 +64,28 @@ class PostsController < ApplicationController
 
   # GET /posts
   def index
-    posts = Post.includes(:tags)
     @posts = Post.joins(:user).select('posts.*, users.name')
     #ページネーション指定ページ
     paged = params[:paged]
-    #指定がない場合はデフォルトを10ページずつ（kaminari標準のlimit_valueは25）
     per = params[:per].present? ? params[:per] : 10
     @posts_paginated = @posts.page(paged).per(per)
     @pagination = pagination(@posts_paginated)
     #@posts = Post.per(3)
     #@pagination = pagination(@posts) 
-    render json: {
-      posts: @posts_paginated,
-      include: :tags,
-      methods: [:file_url, :image_url, :user_image_url,:favo_num,:access_num],
-      pagination: @pagination
-    }
+    @result = @posts_paginated.as_json(
+    include: {
+      tags: {},
+      user: {
+        only: :name
+      }
+    },
+    methods: [:file_url, :image_url, :user_image_url, :favo_num, :access_num]
+  )
+
+  render json: {
+    posts: @result,
+    pagination: @pagination
+  }
   end
 
   # GET /posts/1
