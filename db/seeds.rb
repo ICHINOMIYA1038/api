@@ -8,8 +8,8 @@
 Favorite.delete_all
 Post.delete_all
 User.delete_all
-ActiveRecord::Base.connection.execute("ALTER TABLE users AUTO_INCREMENT = 1;")
-ActiveRecord::Base.connection.execute("ALTER TABLE posts AUTO_INCREMENT = 1;")
+#ActiveRecord::Base.connection.execute("ALTER TABLE users AUTO_INCREMENT = 1;")
+#ActiveRecord::Base.connection.execute("ALTER TABLE posts AUTO_INCREMENT = 1;")
 User.create!([
   {
     name: "admin",
