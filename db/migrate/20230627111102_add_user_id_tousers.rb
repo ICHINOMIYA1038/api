@@ -5,7 +5,7 @@ class AddUserIdTousers < ActiveRecord::Migration[7.0]
   
     remove_column :users, :id
     # user_idカラムを追加し、PKとして設定
-    add_column :users, :user_id, :integer, null: false, primary_key: true, auto_increment: true
+    add_column :users, :user_id, :integer, null: false, primary_key: true
     
     add_foreign_key :posts, :users, column: :user_id, primary_key: :user_id
   end
