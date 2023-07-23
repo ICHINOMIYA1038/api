@@ -10,8 +10,7 @@ module App
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
-    config.assets.enabled = true
-    
+
     config.hosts << 'https://rails-zms0.onrender.com' #render用
 
     config.action_dispatch.default_headers = {
