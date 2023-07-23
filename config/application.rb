@@ -11,8 +11,8 @@ module App
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
 
-    config.hosts << 'https://rails-zms0.onrender.com' #render用
-
+    config.hosts << 'rails-zms0.onrender.com' #render用
+    
     config.action_dispatch.default_headers = {
       'X-Frame-Options' => 'ALLOWALL'
     }
