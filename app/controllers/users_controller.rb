@@ -24,7 +24,7 @@ class UsersController < ApplicationController
           status:"Ng"
           user:[]
       }
-    end
+      end
     end
 
     def favorites
