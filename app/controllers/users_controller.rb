@@ -15,15 +15,15 @@ class UsersController < ApplicationController
 
     def current_user
       if current_api_v1_user
-        render json:{
-          status:"Ok"
-          user:current_api_v1_user
+        render json: {
+          status: "Ok",
+          user: current_api_v1_user
         }
       else 
-        render json:{
-          status:"Ng"
-          user:[]
-      }
+        render json: {
+          status: "Ng",
+          user: []
+        }
       end
     end
 
