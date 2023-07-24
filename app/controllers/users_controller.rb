@@ -13,6 +13,20 @@ class UsersController < ApplicationController
       render json: @user ,methods: [:image_url]
     end
 
+    def current_user
+      if current_api_v1_user
+        render json:{
+          status:"Ok"
+          user:current_api_v1_user
+        }
+      else 
+        render json:{
+          status:"Ng"
+          user:[]
+      }
+    end
+    end
+
     def favorites
       if current_api_v1_user
         favorites = Favorite.where(user_id: current_api_v1_user.user_id).pluck(:post_id)  # ログイン中のユーザーのお気に入りのpost_idカラムを取得
