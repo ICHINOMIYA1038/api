@@ -49,4 +49,6 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
 
+  get '/redirect/confirm', to: 'redirects#redirect_to_confirm'
+  et '/redirect/reset', to: 'redirects#redirect_to_reset'
 end
