@@ -32,6 +32,9 @@ User.create!([
   }
 ])
 
+tag = Tag.new(name: 'sampleProduction')
+tag.save
+
 require 'faker'
 # ユーザーデータの生成
 50.times do

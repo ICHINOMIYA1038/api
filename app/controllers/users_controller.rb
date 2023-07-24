@@ -5,7 +5,6 @@ class UsersController < ApplicationController
     
     def index
         @users = User.with_attached_avatar
-        puts "ログメッセージ"
         render json: @users ,methods: [:image_url]
     end
 
