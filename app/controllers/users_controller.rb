@@ -18,8 +18,7 @@ class UsersController < ApplicationController
         render json: {
           status: "Ok",
           user: current_api_v1_user
-        }
-        ,methods: [:image_url]
+        },methods: [:image_url]
       else 
         render json: {
           status: "Ng",
