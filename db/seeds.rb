@@ -15,8 +15,8 @@ User.delete_all
 #ActiveRecord::Base.connection.execute("ALTER TABLE posts AUTO_INCREMENT = 1;")
 
 # POSTGRES用
-ActiveRecord::Base.connection.execute("ALTER SEQUENCE posts_post_id_seq RESTART WITH 1;")
-ActiveRecord::Base.connection.execute("ALTER SEQUENCE users_user_id_seq RESTART WITH 1;")
+#ActiveRecord::Base.connection.execute("ALTER SEQUENCE posts_post_id_seq RESTART WITH 1;")
+#ActiveRecord::Base.connection.execute("ALTER SEQUENCE users_user_id_seq RESTART WITH 1;")
 
 User.create!([
   {
