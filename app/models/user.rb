@@ -11,7 +11,6 @@ class User < ApplicationRecord
 
 
     def set_default_avatar
-        puts "画像が追加されました。"
         unless avatar.attached?
           avatar.attach(io: File.open(Rails.root.join('public', 'uploads', 'default_avatar.png')), filename: 'default_avatar.png', content_type: 'image/png')
         end
