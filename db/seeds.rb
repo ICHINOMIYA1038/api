@@ -45,12 +45,13 @@ tag.save
 require 'faker'
 # ユーザーデータの生成
 50.times do
-  User.create(
+  user = User.new(
     name: Faker::Name.name,
     email: Faker::Internet.email,
     password: 'password',
     password_confirmation: 'password',
   )
+  user.save
 end
 
 

@@ -21,7 +21,7 @@ class Post < ApplicationRecord
     end
 
     def file_url
-        # 紐づいている画像のURLを取得する
+        # 紐づいているPDFファイルのURLを取得する
         mainfile.attached? ? url_for(mainfile) : nil
     end
 
