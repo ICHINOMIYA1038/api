@@ -65,13 +65,11 @@ render json: {
   # GET /posts
   def index
     @posts = Post.joins(:user).select('posts.*, users.name')
-    #ページネーション指定ページ
     paged = params[:paged]
     per = params[:per].present? ? params[:per] : 10
     @posts_paginated = @posts.page(paged).per(per)
     @pagination = pagination(@posts_paginated)
-    #@posts = Post.per(3)
-    #@pagination = pagination(@posts) 
+
     @result = @posts_paginated.as_json(
     include: {
       tags: {},
