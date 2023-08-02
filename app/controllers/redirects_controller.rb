@@ -1,7 +1,7 @@
 class RedirectsController < ApplicationController
     def redirect_to_confirm
       # リダイレクト先のベースURL（外部ホスト）を設定
-      base_url = "http://localhost:8000"
+      base_url = "https://front-murex-phi.vercel.app/"
   
       # リダイレクト先のパスを設定（サブディレクトリを含む場合はここに設定）
       redirect_path = "/confirmation_success"
@@ -15,7 +15,7 @@ class RedirectsController < ApplicationController
 
     def redirect_to_reset
         # リダイレクト先のベースURL（外部ホスト）を設定
-        base_url = "http://localhost:8000"
+        base_url = "https://front-murex-phi.vercel.app/"
     
         # リダイレクト先のパスを設定（サブディレクトリを含む場合はここに設定）
         redirect_path = "/reset"

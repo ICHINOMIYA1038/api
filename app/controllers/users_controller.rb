@@ -3,6 +3,7 @@ class UsersController < ApplicationController
     include AuthHelper
     include Pagination
     
+    
     def index
         @users = User.with_attached_avatar
         render json: @users ,methods: [:image_url]
@@ -52,31 +53,12 @@ class UsersController < ApplicationController
     }
 
       else
-        favorites = Favorite.where(user_id: 54).pluck(:post_id)  # ログイン中のユーザーのお気に入りのpost_idカラムを取得
-        @posts = Post.joins(:user).where(post_id: favorites).select('posts.*, users.name')
-        paged = params[:paged] 
-        per = params[:per].present? ? params[:per] : 10
-        
-        @posts_paginated = @posts.page(paged).per(per)
-        @pagination = pagination(@posts_paginated)
-        @result = @posts_paginated.as_json(
-        include: {
-          tags: {},
-          user: {
-            only: :name
-          }
-    },
-    methods: [:file_url, :image_url, :user_image_url, :favo_num, :access_num]
-  )
-
-    render json: {
-      posts: @result,
-      pagination: @pagination
-    }
-    
+        render json: { message: "ログインしてください" }
       end
     end
 
+
+    
     def setting
       if current_api_v1_user
         if current_api_v1_user.update(user_profile_params)

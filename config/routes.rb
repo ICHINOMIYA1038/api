@@ -3,9 +3,12 @@ Rails.application.routes.draw do
   resources :users, only: [:index,:show,:new,:edit,:update, :create, :destroy]
   resources :tags, only:[:index]
 
+  # ユーザーごとの投稿の取得
   get '/users/:user_id/posts', to: 'posts#user_posts'
+  # ユーザーの編集
   post '/setting' ,to: 'users#setting'
 
+  #ユーザー認証のためのルーティング
   namespace :api do
     namespace :v1 do
       mount_devise_token_auth_for 'User', at: 'auth', controllers: {
@@ -14,11 +17,14 @@ Rails.application.routes.draw do
     end
   end
 
+  #お気に入りに登録した投稿の取得
   get 'favo', to:'users#favorites' 
 
-  resources :users, only: [:show, :edit, :update] do
+  #それぞれのユーザーに対してのお気に入りの記事の取得
+  resources :users, only: [:show] do
     get :favorites, on: :collection
   end
+  
 # 記事詳細表示のルーティングにネスト
   resources :posts do
     resource  :favorites, only: [:create, :destroy]
