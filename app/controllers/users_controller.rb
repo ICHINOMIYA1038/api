@@ -17,12 +17,12 @@ class UsersController < ApplicationController
     def current_user
       if current_api_v1_user
         render json: {
-          status: "Ok",
+          status: "ok",
           user: current_api_v1_user
         },methods: [:image_url]
       else 
         render json: {
-          status: "Ng",
+          status: "ng",
           user: []
         }
       end
@@ -58,7 +58,7 @@ class UsersController < ApplicationController
     end
 
 
-    
+
     def setting
       if current_api_v1_user
         if current_api_v1_user.update(user_profile_params)

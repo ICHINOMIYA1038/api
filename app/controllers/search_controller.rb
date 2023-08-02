@@ -53,6 +53,8 @@ class SearchController < ApplicationController
   sort_direction = params[:sortDirection].to_i.zero? ? :asc : :desc
 
   case params[:sort_by]
+  when '0'
+    @data = @data.order(number_of_men: sort_direction)
   when '1'
     @data = @data.order(number_of_men: sort_direction)
   when '2'

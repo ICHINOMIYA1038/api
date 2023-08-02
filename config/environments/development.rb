@@ -1,7 +1,8 @@
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
-
+  #開発環境でのフロントのURL
+  config.frontUrl = "http://localhost:8000"
   config.hosts << "api"
 
   # Settings specified here will take precedence over those in config/application.rb.
@@ -74,7 +75,7 @@ Rails.application.configure do
     # 下記を追加
     config.action_mailer.default_options = { from: ENV['EMAIL_ADDRESS'] }
     config.action_mailer.default_url_options = { host: 'localhost:3000' }
-    config.action_mailer.delivery_method = :smtpBB
+    config.action_mailer.delivery_method = :smtp
     config.action_mailer.smtp_settings = {
       address: 'smtp.gmail.com',
       port: 587,

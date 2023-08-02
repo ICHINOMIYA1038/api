@@ -1,6 +1,7 @@
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
+  config.frontUrl = "https://front-murex-phi.vercel.app/"
   # Settings specified here will take precedence over those in config/application.rb.
   host = 'rails-zms0.onrender.com'
   Rails.application.routes.default_url_options[:host] = host
