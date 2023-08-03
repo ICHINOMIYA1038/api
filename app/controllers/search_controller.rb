@@ -54,7 +54,7 @@ class SearchController < ApplicationController
 
   case params[:sort_by]
   when '0'
-    @data = @data.order(number_of_men: sort_direction)
+
   when '1'
     @data = @data.order(number_of_men: sort_direction)
   when '2'
