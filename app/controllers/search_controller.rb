@@ -20,7 +20,6 @@ class SearchController < ApplicationController
       if tags
         tag_names = params[:tags].split(',') # タグをカンマ区切りの文字列から配列に変換
         tag_names.each do |tag_name|
-          tag = Tag.find_by(name: tag_name)
           tag_ids = Tag.where(name: tag_names).pluck(:id) # タグ名に対応するタグのIDを取得
           if tagcondition == 'all'
             @result = Post.left_joins(:posts_tags)
