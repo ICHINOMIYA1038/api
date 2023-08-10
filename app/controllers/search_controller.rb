@@ -53,7 +53,9 @@ class SearchController < ApplicationController
 
   case params[:sort_by]
   when '0'
-
+    @data = @data.joins(:favorites)
+    .group("posts.id")
+    .order("COUNT(favorites.post_id) DESC")
   when '1'
     @data = @data.order(number_of_men: sort_direction)
   when '2'
