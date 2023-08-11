@@ -16,11 +16,10 @@ local:
 
 # Remember not to checkin your GCS keyfile to a repository
 google:
- service: GCS
- project: scriplay
- credentials: <%= Rails.root.join("gcs.keyfile") %>
- bucket: scriplay-api
-
+  service: GCS
+  project: scriplay
+  credentials: <%= Rails.root.join("gcs.keyfile") %>
+  bucket: scriplay-api
 # Use bin/rails credentials:edit to set the Azure Storage secret (as azure_storage:storage_access_key)
 # microsoft:
 #   service: AzureStorage

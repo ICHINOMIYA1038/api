@@ -32,10 +32,10 @@ class SearchController < ApplicationController
             @data = @data.joins(:tags).where(tags: { id: tag_ids }).distinct
           elsif tagcondition == 'none'
             @data = @data.joins(:tags).where(tags: { id: tag_ids }).where(tags: { id: nil })
+          else
+            @data = Post.joins(:user).all
           end
         end
-      elsif
-        @data = Post.joins(:user).all
       end
       
       @data=@data.where(
@@ -53,9 +53,11 @@ class SearchController < ApplicationController
 
   case params[:sort_by]
   when '0'
-    @data = @data.joins(:favorites)
-    .group("posts.post_id")
-    .order("COUNT(favorites.post_id) DESC")
+    if params[:sortDirection].to_i.zero?
+      @data = @data.sort_by {|post| -post.favo_num}
+    else
+      @data = @data.sort_by {|post| -post.favo_num}.reverse
+    end
   when '1'
     @data = @data.order(number_of_men: sort_direction)
   when '2'
@@ -65,14 +67,18 @@ class SearchController < ApplicationController
   when '4'
     @data = @data.order(playtime: sort_direction)
   else
-    @data = @data.order(createdAt: sort_direction)
+    if params[:sortDirection].to_i.zero?
+      @data = @data.sort_by {|post| -post.favo_num}
+    else
+      @data = @data.sort_by {|post| -post.favo_num}.reverse
+    end
   end
 
   paged = params[:paged]
 
   #指定がない場合はデフォルトを10ページずつ（kaminari標準のlimit_valueは25）
   per = params[:per].present? ? params[:per] : 10
-  @posts_paginated = @data.page(paged).per(per)
+  @posts_paginated = Kaminari.paginate_array(@data).page(paged).per(per)
   @pagination = pagination(@posts_paginated)
 
   @result = @posts_paginated.as_json(
