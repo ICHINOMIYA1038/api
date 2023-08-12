@@ -16,8 +16,9 @@ class SearchController < ApplicationController
       tags = params[:tags]
       tagcondition = params[:tagcondition] || "all"
       
-      @data = Post.joins(:user).all
-      if tags
+      
+      if tags.length!=0
+       
         tag_names = params[:tags].split(',') # タグをカンマ区切りの文字列から配列に変換
         tag_names.each do |tag_name|
           tag_ids = Tag.where(name: tag_names).pluck(:id) # タグ名に対応するタグのIDを取得
@@ -27,15 +28,17 @@ class SearchController < ApplicationController
              .group("posts.post_id")
              .having("COUNT(posts.post_id) = ?", tag_ids.length)
              .select("posts.post_id")
-            @data = Post.joins(:user).where(post_id: @result)
+            @data = Post.eager_load(:user).where(post_id: @result)
           elsif tagcondition == 'any'
             @data = @data.joins(:tags).where(tags: { id: tag_ids }).distinct
           elsif tagcondition == 'none'
             @data = @data.joins(:tags).where(tags: { id: tag_ids }).where(tags: { id: nil })
           else
-            @data = Post.joins(:user).all
+            @data = Post.eager_load(:user).all
           end
         end
+      else
+        @data = Post.eager_load(:user).all
       end
       
       @data=@data.where(
