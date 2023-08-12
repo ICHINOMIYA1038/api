@@ -16,8 +16,9 @@ class SearchController < ApplicationController
       tags = params[:tags]
       tagcondition = params[:tagcondition] || "all"
       
-      @data = Post.joins(:user).all
-      if tags
+      
+      if tags.length!=0
+       
         tag_names = params[:tags].split(',') # タグをカンマ区切りの文字列から配列に変換
         tag_names.each do |tag_name|
           tag_ids = Tag.where(name: tag_names).pluck(:id) # タグ名に対応するタグのIDを取得
@@ -27,15 +28,17 @@ class SearchController < ApplicationController
              .group("posts.post_id")
              .having("COUNT(posts.post_id) = ?", tag_ids.length)
              .select("posts.post_id")
-            @data = Post.joins(:user).where(post_id: @result)
+            @data = Post.eager_load(:user).where(post_id: @result)
           elsif tagcondition == 'any'
             @data = @data.joins(:tags).where(tags: { id: tag_ids }).distinct
           elsif tagcondition == 'none'
             @data = @data.joins(:tags).where(tags: { id: tag_ids }).where(tags: { id: nil })
+          else
+            @data = Post.eager_load(:user).all
           end
         end
-      elsif
-        @data = Post.joins(:user).all
+      else
+        @data = Post.eager_load(:user).all
       end
       
       @data=@data.where(
@@ -53,9 +56,11 @@ class SearchController < ApplicationController
 
   case params[:sort_by]
   when '0'
-    @data = @data.joins(:favorites)
-    .group("posts.post_id")
-    .order("COUNT(favorites.post_id) DESC")
+    if params[:sortDirection].to_i.zero?
+      @data = @data.sort_by {|post| -post.favo_num}
+    else
+      @data = @data.sort_by {|post| -post.favo_num}.reverse
+    end
   when '1'
     @data = @data.order(number_of_men: sort_direction)
   when '2'
@@ -65,14 +70,18 @@ class SearchController < ApplicationController
   when '4'
     @data = @data.order(playtime: sort_direction)
   else
-    @data = @data.order(createdAt: sort_direction)
+    if params[:sortDirection].to_i.zero?
+      @data = @data.sort_by {|post| -post.favo_num}
+    else
+      @data = @data.sort_by {|post| -post.favo_num}.reverse
+    end
   end
 
   paged = params[:paged]
 
   #指定がない場合はデフォルトを10ページずつ（kaminari標準のlimit_valueは25）
   per = params[:per].present? ? params[:per] : 10
-  @posts_paginated = @data.page(paged).per(per)
+  @posts_paginated = Kaminari.paginate_array(@data).page(paged).per(per)
   @pagination = pagination(@posts_paginated)
 
   @result = @posts_paginated.as_json(

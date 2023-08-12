@@ -64,7 +64,7 @@ render json: {
 
   # GET /posts
   def index
-    @posts = Post.joins(:user).select('posts.*, users.name')
+    @posts = Post.includes(:user).select('posts.*, users.name')
     paged = params[:paged]
     per = params[:per].present? ? params[:per] : 10
     @posts_paginated = @posts.page(paged).per(per)

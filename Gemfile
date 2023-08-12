@@ -28,6 +28,7 @@ gem 'devise-i18n-views'
 
 gem 'google-cloud-storage'
 
+gem 'jbuilder'
 
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
