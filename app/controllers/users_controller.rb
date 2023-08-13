@@ -31,7 +31,7 @@ class UsersController < ApplicationController
     def favorites
       if current_api_v1_user
         favorites = Favorite.where(user_id: current_api_v1_user.user_id).pluck(:post_id)  # ログイン中のユーザーのお気に入りのpost_idカラムを取得
-        @posts = Post.includes(:user).where(post_id: favorites).select('posts.*, users.name')
+        @posts = Post.eager_load(:user).where(post_id: favorites).select('posts.*, users.name')
         paged = params[:paged]
         per = params[:per].present? ? params[:per] : 10
         
