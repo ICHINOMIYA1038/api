@@ -17,7 +17,7 @@ class SearchController < ApplicationController
       tagcondition = params[:tagcondition] || "all"
       
       
-      if tags.length!=0
+      if tags && tags.length!=0
        
         tag_names = params[:tags].split(',') # タグをカンマ区切りの文字列から配列に変換
         tag_names.each do |tag_name|
