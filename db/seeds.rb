@@ -47,6 +47,13 @@ User.create!([
 tag = Tag.new(name: 'sampleProduction')
 tag.save
 
+10.times do
+  NewsItem.create(
+    date: Time.zone.now.strftime('%Y/%m/%d'),
+    category: '新着脚本',
+    title: "#{Faker::Name.name}が#{Faker::Lorem.sentence(word_count: 1)}を投稿しました"
+  )
+end
 require 'faker'
 # ユーザーデータの生成
 50.times do
