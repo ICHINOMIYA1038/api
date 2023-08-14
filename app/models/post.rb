@@ -9,7 +9,7 @@ class Post < ApplicationRecord
     has_many :favorites, dependent: :destroy 
     has_many :accesses
     has_and_belongs_to_many :tags
-    has_many :comments
+    has_many :comments, dependent: :destroy 
 
     paginates_per 10  # 1ページあたりの表示件数を指定します
 
