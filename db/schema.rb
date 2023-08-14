@@ -11,7 +11,7 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2023_07_15_171826) do
-  create_table "accesses", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "accesses", charset: "utf8mb4", force: :cascade do |t|
     t.datetime "access_date"
     t.integer "post_id", null: false
     t.integer "user_id"
@@ -50,7 +50,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_15_171826) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "comments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "comments", charset: "utf8mb4", force: :cascade do |t|
     t.text "body"
     t.bigint "parent_comment_id"
     t.integer "post_id", null: false
@@ -63,7 +63,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_15_171826) do
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
-  create_table "contacts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "contacts", charset: "utf8mb4", force: :cascade do |t|
     t.string "name", null: false
     t.string "email", null: false
     t.text "message", null: false
@@ -99,14 +99,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_15_171826) do
     t.index ["user_id"], name: "fk_rails_5b5ddfd518"
   end
 
-  create_table "posts_tags", id: false, charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "posts_tags", id: false, charset: "utf8mb4", force: :cascade do |t|
     t.bigint "post_id", null: false
     t.bigint "tag_id", null: false
     t.index ["post_id", "tag_id"], name: "index_posts_tags_on_post_id_and_tag_id"
     t.index ["tag_id", "post_id"], name: "index_posts_tags_on_tag_id_and_post_id"
   end
 
-  create_table "tags", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "tags", charset: "utf8mb4", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

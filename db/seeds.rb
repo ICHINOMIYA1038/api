@@ -5,6 +5,7 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+
 Favorite.delete_all
 Access.delete_all
 Post.delete_all
@@ -17,6 +18,9 @@ User.delete_all
 # POSTGRES用
 #ActiveRecord::Base.connection.execute("ALTER SEQUENCE posts_post_id_seq RESTART WITH 1;")
 #ActiveRecord::Base.connection.execute("ALTER SEQUENCE users_user_id_seq RESTART WITH 1;")
+
+normal_users = []
+
 
 User.create!([
   {
@@ -52,6 +56,7 @@ require 'faker'
     password: 'password',
     password_confirmation: 'password',
   )
+  normal_users << user
   user.save
 end
 
@@ -64,7 +69,7 @@ end
     createdAt: Faker::Time.between(from: 1.year.ago, to: Time.zone.now),
     updatedAt: Faker::Time.between(from: 1.year.ago, to: Time.zone.now),
     deletedAt: Faker::Time.between(from: 1.year.ago, to: Time.zone.now),
-    user_id: Faker::Number.between(from: 1, to: 10),
+    user_id:  normal_users.sample.user_id,
     title: Faker::Lorem.sentence(word_count: 2),
     synopsis: Faker::Lorem.sentence(word_count: 5),
     catchphrase: Faker::Lorem.sentence(word_count: 1),
