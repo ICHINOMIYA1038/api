@@ -182,7 +182,7 @@ render json: {
       NewsItem.create(
         date: Time.zone.now.strftime('%Y/%m/%d'),
         category: '新着脚本',
-        title: "#{author_name}が#{post_title}を投稿しました"
+        title: "#{author_name}が#{post_title}を投稿しました",
         url:"posts/#{id}"
       )
     end
