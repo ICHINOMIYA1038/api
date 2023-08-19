@@ -51,6 +51,9 @@ Rails.application.routes.draw do
 
   get '/current_user', to: 'users#current_user'
 
+  get '/chatrooms-users',to: "chat_rooms#associate_user_with_chat_room"
+
+  post '/messages', to:"messages#create"
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -59,6 +62,7 @@ Rails.application.routes.draw do
 
   Rails.application.routes.draw do
     resources :news_items, only: [:index, :create]
+    resources :chat_rooms, only: [:index, :show]
   end
 
   get '/redirect/confirm', to: 'redirects#redirect_to_confirm'
