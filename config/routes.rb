@@ -55,6 +55,7 @@ Rails.application.routes.draw do
 
   post '/messages', to:"messages#create"
 
+  post '/chat_rooms/find_or_create', to: 'chat_rooms#find_or_create_chat_room'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")

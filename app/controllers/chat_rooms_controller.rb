@@ -3,8 +3,21 @@ class ChatRoomsController < ApplicationController
     before_action :set_chat_room, only: [:show]
   
     def index
-      @chat_rooms = ChatRoom.all
-      render json: @chat_rooms
+      if current_api_v1_user.nil?
+        render json: { error: 'Not authenticated' }, status: :unauthorized
+        return
+      end
+      
+      
+      chatrooms = current_api_v1_user.chat_rooms.includes(:users)
+      
+      render json: chatrooms, include: 
+      {
+         users: {
+           only: [:user_id, :name],
+           methods: [:image_url]
+           } 
+      }
     end
   
     def show
@@ -36,6 +49,31 @@ class ChatRoomsController < ApplicationController
       render json: { error: 'User or chat room not found' }, status: :not_found
     end
 
+    def find_or_create_chat_room
+      # リクエストから渡されたユーザーのIDを取得
+      user_ids = params[:user_ids] 
+      
+      # 渡されたユーザーIDの組み合わせをソートして、一意のキーを作成
+      sorted_user_ids = user_ids.map(&:to_i).sort
+      
+      # 一意のキーに基づいて既存のチャットルームを検索
+      chat_room = ChatRoom.joins(:users)
+                          .where(users: { user_id: sorted_user_ids })
+                          .group("chat_rooms.id")
+                          .having("COUNT(users.user_id) = ?", sorted_user_ids.length)
+                          .first
+      
+      # 一致するチャットルームが見つからない場合は新しいチャットルームを作成
+      if chat_room.nil?
+        chat_room = ChatRoom.create
+        chat_room.users << User.find(user_ids)
+        created = true
+      else
+        created = false
+      end
+      
+      render json: { chat_room: chat_room, created: created }
+    end
 
   
     private
