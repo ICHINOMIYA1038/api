@@ -124,6 +124,8 @@ render json: {
       end
   
       if @post.save
+        create_news_item(@post.user.name, @post.title,@post.post_id)
+
         @post.mainfile.attach(user_params[:mainfile]) if params[:mainfile].present?
         render json: @post, status: :created, location: @post
       else
@@ -175,4 +177,14 @@ render json: {
         :postImage,
         )
     end
+
+    def create_news_item(author_name, post_title, id)
+      NewsItem.create(
+        date: Time.zone.now.strftime('%Y/%m/%d'),
+        category: '新着脚本',
+        title: "#{author_name}が#{post_title}を投稿しました",
+        url:"posts/#{id}"
+      )
+    end
 end
+

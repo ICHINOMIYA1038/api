@@ -2,7 +2,8 @@ class User < ApplicationRecord
     
     include Rails.application.routes.url_helpers
     has_one_attached :avatar
-
+    has_and_belongs_to_many :chat_rooms
+    has_many :messages
     has_many :posts, foreign_key: "user_id"
     has_many :accesses, foreign_key: "user_id"
     after_create :set_default_avatar

@@ -5,7 +5,8 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
-
+Message.delete_all
+ChatRoom.delete_all
 Favorite.delete_all
 Access.delete_all
 Post.delete_all
@@ -22,7 +23,7 @@ User.delete_all
 normal_users = []
 
 
-User.create!([
+sampleusers = User.create!([
   {
     name: "admin",
     email: "admin@admin.com",
@@ -47,6 +48,13 @@ User.create!([
 tag = Tag.new(name: 'sampleProduction')
 tag.save
 
+10.times do
+  NewsItem.create(
+    date: Time.zone.now.strftime('%Y/%m/%d'),
+    category: '新着脚本',
+    title: "#{Faker::Name.name}が#{Faker::Lorem.sentence(word_count: 1)}を投稿しました"
+  )
+end
 require 'faker'
 # ユーザーデータの生成
 50.times do
@@ -60,6 +68,13 @@ require 'faker'
   user.save
 end
 
+chat_room1 = ChatRoom.create(name: 'Chat Room 1')
+chat_room2 = ChatRoom.create(name: 'Chat Room 2')
+Message.create(content: 'Hello from1 User 1', sent_at: Time.now, chat_room_id: chat_room1.id, user_id: sampleusers[0].user_id)
+Message.create(content: 'Hi there!', sent_at: Time.now, chat_room_id: chat_room1.id, user_id: sampleusers[0].user_id)
+Message.create(content: 'Greetings', sent_at: Time.now, chat_room_id: chat_room1.id, user_id: sampleusers[0].user_id)
+Message.create(content: 'Chatting in Chat Room 2', sent_at: Time.now, chat_room_id: chat_room2.id, user_id: sampleusers[0].user_id)
+Message.create(content: 'Having a good time!', sent_at: Time.now, chat_room_id: chat_room2.id, user_id: sampleusers[0].user_id)
 
 
 100.times do
