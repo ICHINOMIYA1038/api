@@ -4,7 +4,6 @@ class Post < ApplicationRecord
     validates :title, presence: true, length: { maximum: 30 }
     has_one_attached :mainfile
     has_one_attached :postImage
-    after_create :set_default_Image
     belongs_to :user, foreign_key: "user_id"
     has_many :favorites, dependent: :destroy 
     has_many :accesses
@@ -14,7 +13,7 @@ class Post < ApplicationRecord
     paginates_per 10  # 1ページあたりの表示件数を指定します
 
 
-    def set_default_Image
+    def set_default_Image # 使わない->フロントで制御
         unless postImage.attached?
             postImage.attach(io: File.open(Rails.root.join('public', 'uploads', 'NoImage.jpg' )), filename: 'NoImage.jpg', content_type: 'image/jpg')
         end
