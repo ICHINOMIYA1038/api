@@ -6,12 +6,11 @@ class User < ApplicationRecord
     has_many :messages
     has_many :posts, foreign_key: "user_id"
     has_many :accesses, foreign_key: "user_id"
-    after_create :set_default_avatar
     has_many :favorites, dependent: :destroy     # ユーザー/お気に入り → 1:多
     has_many :comments
 
 
-    def set_default_avatar
+    def set_default_avatar #一旦停止。nullのまま。
         unless avatar.attached?
           avatar.attach(io: File.open(Rails.root.join('public', 'uploads', 'default_avatar.png')), filename: 'default_avatar.png', content_type: 'image/png')
         end
