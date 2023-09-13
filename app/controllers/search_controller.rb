@@ -77,7 +77,8 @@ class SearchController < ApplicationController
     end
   end
 
-  paged = params[:paged]
+  paged = params[:page]
+
 
   #指定がない場合はデフォルトを10ページずつ（kaminari標準のlimit_valueは25）
   per = params[:per].present? ? params[:per] : 10
