@@ -26,7 +26,7 @@ normal_users = []
 sampleusers = User.create!([
   {
     name: "admin",
-    email: "admin@admin.com",
+    email: "test@example.com",
     password: 'password',
     password_confirmation: 'password',
     admin: true
